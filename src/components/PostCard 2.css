@@ -1,0 +1,38 @@
+.post-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s;
+  }
+  
+  body.dark .post-card {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    color: white;
+  }
+  
+  .post-title {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .post-body {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  
+  .post-image-wrapper {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .post-image {
+    max-width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
