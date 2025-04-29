@@ -1,0 +1,19 @@
+.subreddit-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: white;
+    transition: 0.2s ease-in-out;
+  }
+  
+  body.dark .subreddit-card {
+    background-color: #1e1e1e;
+    color: white;
+    border-color: #333;
+  }
+  
+  .subreddit-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  

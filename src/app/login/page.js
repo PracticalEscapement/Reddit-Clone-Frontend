@@ -10,6 +10,7 @@ export default function LoginPage() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // will need to be configured with flask backend.
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Logging in with:', formData);
