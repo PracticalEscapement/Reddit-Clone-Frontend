@@ -26,11 +26,12 @@ export default function LoginPage() {
           'Content-Type': 'application/json', // Tell the server you're sending JSON
         },
         body: JSON.stringify(formData), // Convert JS object to JSON
-        credentials: 'include', // Send cookies with the request
       });
 
       if (response.ok) {
         const data = await response.json();
+        localStorage.setItem("jwtToken", data.token); // Store the JWT token
+        console.log(data.token)
         console.log('Login successful:', data.response);
         // Redirect or update UI after successful login
         router.push('/'); // Redirect to the home page

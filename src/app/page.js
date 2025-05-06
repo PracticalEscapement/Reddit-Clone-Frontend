@@ -1,41 +1,86 @@
-"use client"; // Required for client-side interactivity in Next.js
+"use client";
 
-// import Image from "public/images";
-// import styles from "./page.module.css";
 import { useState, useEffect } from "react";
-import PostCard from '../components/PostCard';
-import createCommunity from "../app/createCommunity/createCommunity";
+import PostCard from "../components/PostCard";
+import CreateCommunity from "./CreateCommunity/CreateCommunity";
 
 export default function Home() {
-  const [user, setUser] = useState(null);   // Stores the currently logged-in user (or null if not logged in) 
-  const [communities, setCommunities] = useState([]);   // Stores the list of communities to display
+  const [user, setUser] = useState(null); // Stores the currently logged-in user
+  const [communities, setCommunities] = useState([]); // Stores the list of communities to display
 
   // Fetch user and communities on component mount
   useEffect(() => {
     async function fetchData() {
-      const userResponse = await fetch("http://127.0.0.1:5000/api/is_logged_in", { 
-        method: 'GET', 
-        credentials: "include" // Include cookies for session management
-        })
-        .then((res) => (res.ok ? res.json() : null))
-        .catch(() => null);
-      setUser(userResponse);
+      const token = localStorage.getItem("jwtToken"); // Retrieve the JWT token from localStorage
 
-      const communitiesResponse = userResponse
-        ? await fetch(`/api/communities/${userResponse.id}`, { credentials: "include" }).then((res) => res.json())
-        : await fetch("/api/communities/popular").then((res) => res.json());
-      setCommunities(communitiesResponse);
+      if (!token) {
+        console.error("No token found. User is not logged in.");
+        setUser(null);
+        return;
+      }
+
+      try {
+        // Fetch user data
+        const userResponse = await fetch("http://127.0.0.1:5000/api/is_logged_in", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
+          },
+        });
+
+        if (userResponse.ok) {
+          const userData = await userResponse.json();
+          setUser(userData);
+
+          // Fetch communities based on the user
+          const communitiesResponse = await fetch(
+            `http://127.0.0.1:5000/api/communities/${userData.id}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`, // Include the JWT token
+              },
+            }
+          );
+
+          if (communitiesResponse.ok) {
+            const communitiesData = await communitiesResponse.json();
+            setCommunities(communitiesData);
+          } else {
+            console.error("Failed to fetch communities.");
+          }
+        } else {
+          console.error("Failed to fetch user data.");
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setUser(null);
+      }
     }
 
     fetchData();
   }, []);
 
   const refreshCommunities = async () => {
-    if (user) {
-      const updatedCommunities = await fetch(`/api/communities/${user.id}`, { credentials: "include" }).then((res) =>
-        res.json()
-      );
-      setCommunities(updatedCommunities);
+    const token = localStorage.getItem("jwtToken"); // Retrieve the JWT token
+
+    if (user && token) {
+      try {
+        const updatedCommunities = await fetch(
+          `http://127.0.0.1:5000/api/communities/${user.id}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`, // Include the JWT token
+            },
+          }
+        ).then((res) => res.json());
+
+        setCommunities(updatedCommunities);
+      } catch (error) {
+        console.error("Error refreshing communities:", error);
+      }
     }
   };
 
@@ -52,7 +97,7 @@ export default function Home() {
       ))}
 
       {user && (
-        <createCommunity userId={user.id} onCommunityCreated={refreshCommunities} />
+        <CreateCommunity userId={user.id} onCommunityCreated={refreshCommunities} />
       )}
 
       {!user && <p>Please log in to create a community.</p>}
