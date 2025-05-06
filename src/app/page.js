@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import PostCard from "../components/PostCard";
+
 import CreateCommunity from "../components/createCommunity";
 
 export default function Home() {
@@ -32,9 +33,11 @@ export default function Home() {
           const userData = await userResponse.json();
           setUser(userData);
 
+          console.log("Home page. Current user:", userData);
+
           // Fetch communities based on the user
           const communitiesResponse = await fetch(
-            `http://127.0.0.1:5000/api/communities/${userData.id}`,
+            `http://127.0.0.1:5000/api/communities/${userData.user_id}`,
             {
               method: "GET",
               headers: {
@@ -44,6 +47,7 @@ export default function Home() {
           );
 
           if (communitiesResponse.ok) {
+            console.log("User's communities being loaded")
             const communitiesData = await communitiesResponse.json();
             setCommunities(communitiesData);
           } else {
