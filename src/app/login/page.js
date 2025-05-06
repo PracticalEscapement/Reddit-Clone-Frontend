@@ -31,8 +31,7 @@ export default function LoginPage() {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("jwtToken", data.token); // Store the JWT token
-        console.log(data.token)
-        console.log('Login successful:', data.response);
+        console.log('Login successful:', data);
         // Redirect or update UI after successful login
         router.push('/'); // Redirect to the home page
       } else {
