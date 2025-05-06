@@ -1,4 +1,5 @@
 .profile-container {
+<<<<<<< HEAD
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -26,3 +27,25 @@
   .profile-container button:hover {
     background-color: #e03e00;
   }
+=======
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }
+  
+  .profile-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  body.dark .profile-card {
+    background-color: #1e1e1e;
+    color: white;
+    border-color: #333;
+  }
+  
+>>>>>>> 4da5991 (Add User profile card)
