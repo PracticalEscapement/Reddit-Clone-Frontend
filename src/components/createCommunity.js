@@ -1,6 +1,6 @@
 "use client"; // Required for client-side interactivity in Next.js
 
-import "./CreateCommunity.css";
+import "./createCommunity.css";
 import { useState } from "react";
 
 export default function CreateCommunityForm({ userId, onCommunityCreated }) {

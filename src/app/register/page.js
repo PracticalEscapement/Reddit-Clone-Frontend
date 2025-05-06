@@ -6,6 +6,8 @@ import './register.css';
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
     username: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -29,6 +31,22 @@ export default function RegisterPage() {
     <div className="register-container">
       <form onSubmit={handleSubmit} className="register-form">
         <h2>Register</h2>
+        <input
+          type="text"
+          name="first-name"
+          placeholder="First Name"
+          value={formData.firstName}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="last-name"
+          placeholder="Last Name"
+          value={formData.lastName}
+          onChange={handleChange}
+          required
+        />
         <input
           type="text"
           name="username"

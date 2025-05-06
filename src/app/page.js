@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import PostCard from "../components/PostCard";
-import CreateCommunity from "../components/CreateCommunity";
+
+import CreateCommunity from "../components/createCommunity";
 
 export default function Home() {
   const [user, setUser] = useState(null); // Stores the currently logged-in user
