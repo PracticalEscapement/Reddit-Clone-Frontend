@@ -17,7 +17,7 @@ export default function RegisterPage() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert('Passwords do not match!');
@@ -25,6 +25,53 @@ export default function RegisterPage() {
     }
     console.log('Registering user:', formData);
     // TODO: Send to backend
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Tell the server you're sending JSON
+        },
+        body: JSON.stringify({
+          f_name: formData.firstName,
+          l_name: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+        }), // Convert JS object to JSON
+      });
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("jwtToken", data.token); // Store the JWT token
+        console.log('Registration successful', data);
+        alert(data.message);   // Notify the user of successful registration
+
+        // Automatically log the user in after registration
+        const loginResponse = await fetch('http://127.0.0.1:5000/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        });
+
+        if (loginResponse.ok) {
+          console.log('Login successful:', loginData);
+          router.push('/'); // Redirect to the home page 
+        } else {
+          console.error('Login failed after registration');
+          alert('Registration successful, but login failed. Please log in manually.');
+        }
+      } else {
+        const errorData = await response.json();
+        console.error(errorData.error)
+        alert(errorData.error || 'Registration failed');
+      }
+    } catch (err) {
+      console.error('Error registering:', err);
+      alert('An unexpected error occurred. Please try again.');
+    }
   };
 
   return (
@@ -33,7 +80,7 @@ export default function RegisterPage() {
         <h2>Register</h2>
         <input
           type="text"
-          name="first-name"
+          name="firstName"
           placeholder="First Name"
           value={formData.firstName}
           onChange={handleChange}
@@ -41,17 +88,9 @@ export default function RegisterPage() {
         />
         <input
           type="text"
-          name="last-name"
+          name="lastName"
           placeholder="Last Name"
           value={formData.lastName}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
           onChange={handleChange}
           required
         />
