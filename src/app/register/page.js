@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import './register.css';
 
 export default function RegisterPage() {
@@ -12,6 +13,8 @@ export default function RegisterPage() {
     password: '',
     confirmPassword: ''
   });
+
+  const router = useRouter(); // Initialize router
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -40,9 +43,13 @@ export default function RegisterPage() {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log("Token received from backend:", data.token);
         localStorage.setItem("jwtToken", data.token); // Store the JWT token
-        console.log('Registration successful', data);
+        console.log('Registration successful', data.token);
         alert(data.message);   // Notify the user of successful registration
+
+        const token = localStorage.getItem("jwtToken"); // Retrieve token from localStorage
+        console.log(token)
 
         // Automatically log the user in after registration
         const loginResponse = await fetch('http://127.0.0.1:5000/api/login', {
@@ -57,7 +64,7 @@ export default function RegisterPage() {
         });
 
         if (loginResponse.ok) {
-          console.log('Login successful:', loginData);
+          console.log('Login successful:', formData.email);
           router.push('/'); // Redirect to the home page 
         } else {
           console.error('Login failed after registration');
