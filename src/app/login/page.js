@@ -7,6 +7,7 @@ import './login.css';
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
   const router = useRouter(); // Initialize the router
 
   const handleChange = (e) => {
@@ -35,9 +36,9 @@ export default function LoginPage() {
         // Redirect or update UI after successful login
         router.push('/'); // Redirect to the home page
       } else {
-        console.error(data.response);
-        const errorData = await response.json();
-        setError(errorData.error || 'Login failed');
+        const errorData = await response.json(); // Parse the error response
+        console.error('Login failed:', errorData);
+        setError(errorData.error || 'Invalid email or password'); // Display backend error or fallback message
       }
     } catch (err) {
       console.error('Error logging in:', err);
@@ -68,7 +69,20 @@ export default function LoginPage() {
           required
         />
         <button type="submit">Login</button>
+
+      <div>
+        <p>
+          Don't have an account?{" "}
+          <a href="/register" style={{ color: "blue", textDecoration: "underline" }}>
+            Register here
+          </a>
+        </p>
+      </div>
+
       </form>
+      
+
+      
     </div>
   );
 }
