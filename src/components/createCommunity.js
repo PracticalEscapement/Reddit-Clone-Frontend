@@ -12,7 +12,7 @@ export default function CreateCommunityForm({ userId, onCommunityCreated }) {
   //This function handles what happens when the form is submitted
   const handleSubmit = async (e) => {
     e.preventDefault();        // Prevent page reload
-
+    console.log(name);
     const token = localStorage.getItem("jwtToken"); // Retrieve token from localStorage
     console.log(token);
 
@@ -22,7 +22,9 @@ export default function CreateCommunityForm({ userId, onCommunityCreated }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`, // Add the token to the request
       },
-      body: JSON.stringify({ name, description, imageUrl, userId }),
+      body: JSON.stringify({ name: name, 
+                            description: description, 
+                            imageUrl: imageUrl }),
     });
 
     if (response.ok) {
