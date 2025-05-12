@@ -97,7 +97,7 @@ export default function Home() {
           key={community.name}
           title={community.name}
           body={community.description}
-          imageUrl={community.imageUrl || null}
+          imageUrl={community.image_url || null}
         />
       ))}
 
