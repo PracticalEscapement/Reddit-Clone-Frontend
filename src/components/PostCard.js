@@ -10,7 +10,7 @@ export default function PostCard({ title, body, imageUrl, members }) {
           <img src={imageUrl} alt="Post" className="post-image" />
         </div>
       )}
-      <p className="post-members">{members} members</p> {/* Add members info */}
+      <p className="post-members">{members === 1 ? `${members} member` : `${members} members`}</p> {/* Add members info */}
     </div>
   );
 }
