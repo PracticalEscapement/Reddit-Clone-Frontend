@@ -13,6 +13,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       const token = localStorage.getItem("jwtToken"); // Retrieve the JWT token from localStorage
+      console.log(token)
 
       if (!token) {
         console.error("No token found. User is not logged in.");
