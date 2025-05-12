@@ -95,7 +95,6 @@ export default function Home() {
             await handleJoinCommunity(pendingCommunity); // Automatically join the pending community
             localStorage.removeItem("pendingCommunity"); // Clear the pending community
           }
-
           // Fetch communities based on the user
           const communitiesResponse = await fetch(
             `http://127.0.0.1:5000/api/communities/${userData.user_id}`,

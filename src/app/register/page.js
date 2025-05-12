@@ -64,6 +64,7 @@ export default function RegisterPage() {
         });
 
         if (loginResponse.ok) {
+
           console.log('Login successful:', formData.email);
           router.push('/'); // Redirect to the home page 
         } else {
@@ -98,6 +99,14 @@ export default function RegisterPage() {
           name="lastName"
           placeholder="Last Name"
           value={formData.lastName}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="username"
+          placeholder="username"
+          value={formData.username}
           onChange={handleChange}
           required
         />
