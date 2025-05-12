@@ -1,57 +1,120 @@
 .create-community-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-  }
-  
-  .create-community-form {
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 2rem;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  body.dark .create-community-form {
-    background-color: #222;
-    color: white;
-    border: 1px solid #555;
-  }
-  
-  .create-community-form h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  .create-community-form input,
-  .create-community-form textarea {
-    margin-bottom: 1rem;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  body.dark .create-community-form input,
-  body.dark .create-community-form textarea {
-    background-color: #333;
-    color: white;
-    border: 1px solid #555;
-  }
-  
-  .create-community-form button {
-    padding: 0.75rem;
-    background-color: #0070f3;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  .create-community-form button:hover {
-    background-color: #0051aa;
-  }
+  display: flex;
+  flex-direction: column; /* Stack title and form vertically */
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh; /* Full viewport height for proper centering */
+  padding: 2rem; /* Add padding for smaller screens */
+}
+
+.create-community-title {
+  text-align: center;
+  margin-bottom: 2rem; /* Add more spacing between the title and the form */
+  font-size: 2 rem; /* Larger font size for better visibility */
+  font-weight: bold;
+  color: #333;
+}
+
+body.dark .create-community-title {
+  color: white;
+}
+
+.create-community-form {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 2rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px; /* Slightly wider form for better usability */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  gap: 1.5rem; /* Add consistent spacing between form elements */
+}
+
+body.dark .create-community-form {
+  background-color: #222;
+  color: white;
+  border: 1px solid #555;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Adjust shadow for dark mode */
+}
+
+/* New: Form group structure for better spacing */
+.create-community-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Space between label and input/textarea */
+}
+
+/* New: Label styling */
+.create-community-form label {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+body.dark .create-community-form label {
+  color: #ddd;
+}
+
+.create-community-form input,
+.create-community-form textarea {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem; /* Ensure consistent font size */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Add smooth transitions */
+}
+
+.create-community-form input:focus,
+.create-community-form textarea:focus {
+  border-color: #0070f3;
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.5); /* Highlight on focus */
+  outline: none;
+}
+
+body.dark .create-community-form input,
+body.dark .create-community-form textarea {
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+}
+
+body.dark .create-community-form input:focus,
+body.dark .create-community-form textarea:focus {
+  border-color: #0070f3;
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.5);
+}
+
+.create-community-form button {
+  padding: 1rem;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem; /* Slightly larger font size */
+  transition: background-color 0.3s, transform 0.2s; /* Add smooth transitions */
+}
+
+.create-community-form button:hover {
+  background-color: #083f73;
+  transform: scale(1.02); /* Slightly enlarge on hover */
+}
+
+.create-community-form button:active {
+  background-color: #003d7a;
+  transform: scale(0.98); /* Slightly shrink on click */
+}
+
+.create-community-form .form-message {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #38a169; /* Green for success messages */
+  text-align: center;
+}
+
+body.dark .create-community-form .form-message {
+  color: #48bb78; /* Lighter green for dark mode */
+}

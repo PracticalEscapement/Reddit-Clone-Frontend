@@ -43,37 +43,40 @@ export default function CreateCommunityForm({ userId, onCommunityCreated }) {
   };
 
   return (
-    <div>
-      <h2>Create a New Community</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Community Name:</label>
+    <div className="create-community-container">
+      <h2 className="create-community-title">Create a New Community</h2>
+      <form onSubmit={handleSubmit} className="create-community-form"> 
+        <div className="form-group">
+          <label className="form-label">Community Name:</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="form-input"
             required
           />
         </div>
-        <div>
-          <label>Description:</label>
+        <div className="form-group">
+          <label className="form-label">Description:</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            className="form-textarea"
             required
           />
         </div>
-        <div>
-          <label>Image URL (optional):</label>
+        <div className="form-group">
+          <label className="form-label">Image URL (optional):</label>
           <input
             type="text"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
+            className="form-input"
           />
         </div>
-        <button type="submit">Create Community</button>
+        <button type="submit" className="form-button">Create Community</button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="form-message">{message}</p>}
     </div>
   );
 }
