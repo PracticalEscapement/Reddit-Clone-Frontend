@@ -12,6 +12,9 @@ export default function Home() {
   const [user, setUser] = useState(null); // Stores the currently logged-in user
   const [communities, setCommunities] = useState([]); // Stores the list of communities to display
 
+  const handleCommunityCreated = (newCommunity) => {
+    setCommunities((prevCommunities) => [...prevCommunities, newCommunity]);
+  };
 
   const handleJoinCommunity = async (communityName) => {
     const token = localStorage.getItem("jwtToken");
@@ -170,7 +173,7 @@ export default function Home() {
     )}
 
     {user && (
-      <CreateCommunity userId={user.id} onCommunityCreated={refreshCommunities} />
+      <CreateCommunity userId={user.id} onCommunityCreated={handleCommunityCreated} />
     )}
 
     {!user && <p>Please log in to create a community.</p>}

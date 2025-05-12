@@ -28,6 +28,8 @@ export default function CreateCommunityForm({ userId, onCommunityCreated }) {
     });
 
     if (response.ok) {
+      const newCommunity = await response.json(); // Get the newly created community data
+      console.log("New community data: ", newCommunity.community);
       setMessage("Community created successfully!");
       setName("");
       setDescription("");
@@ -35,7 +37,7 @@ export default function CreateCommunityForm({ userId, onCommunityCreated }) {
 
       // Notify parent component to refresh communities
       if (onCommunityCreated) {
-        onCommunityCreated();
+        onCommunityCreated(newCommunity.community);
       }
     } else {
       setMessage("Failed to create community. Please try again.");
