@@ -16,8 +16,23 @@ export default function Home() {
       console.log(token)
 
       if (!token) {
-        console.error("No token found. User is not logged in.");
         setUser(null);
+        console.log("No token found. Fetching popular communities.");
+        try {
+          // Fetch popular communities
+          const popularResponse = await fetch("http://127.0.0.1:5000/api/communities/popular", {
+            method: "GET",
+          });
+
+          if (popularResponse.ok) {
+            const popularCommunities = await popularResponse.json();
+            setCommunities(popularCommunities);
+          } else {
+            console.error("Failed to fetch popular communities.");
+          }
+        } catch (error) {
+          console.error("Error fetching popular communities:", error);
+        }
         return;
       }
 
@@ -92,21 +107,28 @@ export default function Home() {
   return (
     <div>
       <h1>{user ? "Your Communities" : "Popular Communities"}</h1>
-      {communities.map((community) => (
-        <PostCard
+      {communities.length > 0 ? (
+      communities.map((community) => {
+        // Ensure num_members is not null
+        const numMembers = community.num_members || 0;
+        return (<PostCard
           key={community.name}
           title={community.name}
           body={community.description}
           imageUrl={community.image_url || null}
-          members={community.num_members}
+          members={numMembers}
         />
-      ))}
+        );
+      })
+    ) : (
+      <p>{user ? "You are not part of any communities yet." : "No popular communities to display."}</p>
+    )}
 
-      {user && (
-        <CreateCommunity userId={user.id} onCommunityCreated={refreshCommunities} />
-      )}
+    {user && (
+      <CreateCommunity userId={user.id} onCommunityCreated={refreshCommunities} />
+    )}
 
-      {!user && <p>Please log in to create a community.</p>}
+    {!user && <p>Please log in to create a community.</p>}
     </div>
   );
 }
