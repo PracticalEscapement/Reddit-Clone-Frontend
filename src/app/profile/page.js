@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-<<<<<<< HEAD
 
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
@@ -50,48 +49,3 @@ export default function ProfilePage() {
 
   }
   
-=======
-import './profile.css';
-
-export default function ProfilePage() {
-  const [user, setUser] = useState({
-    id: 1,
-    username: 'oscar2 dejesus2',
-    email: 'oscar2@gmail.com',
-    comments: [],
-    posts: [],
-    communities: [],
-    notifications: [],
-    sent_messages: [],
-    recieved_messages: [],
-  });
-
-  // useEffect(() => {
-  //   // Replace this with fetch('/api/user') if using real backend
-  //   const fetchUser = async () => {
-  //     const response = await fetch('/api/user'); // OR simulate locally
-  //     const data = await response.json();
-  //     setUser(data[0]); // Assume first user for now
-  //   };
-
-  //   fetchUser();
-  // }, []);
-
-  if (!user) return <p>Loading profile...</p>;
-
-  return (
-    <div className="profile-container">
-      <div className="profile-card">
-        <h2>{user.username}</h2>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Posts:</strong> {user.posts.length}</p>
-        <p><strong>Communities:</strong> {user.communities.length}</p>
-        <p><strong>Comments:</strong> {user.comments.length}</p>
-        <p><strong>Sent Messages:</strong> {user.sent_messages.length}</p>
-        <p><strong>Received Messages:</strong> {user.recieved_messages.length}</p>
-        <p><strong>Notifications:</strong> {user.notifications.length}</p>
-      </div>
-    </div>
-  );
-}
->>>>>>> 4da5991 (Add User profile card)

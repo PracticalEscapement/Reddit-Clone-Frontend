@@ -103,6 +103,14 @@ export default function RegisterPage() {
           required
         />
         <input
+          type="text"
+          name="username"
+          placeholder="username"
+          value={formData.username}
+          onChange={handleChange}
+          required
+        />
+        <input
           type="email"
           name="email"
           placeholder="Email"
