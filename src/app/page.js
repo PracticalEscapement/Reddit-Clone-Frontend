@@ -1,13 +1,50 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import PostCard from "../components/PostCard";
 
 import CreateCommunity from "../components/createCommunity";
 
+
 export default function Home() {
+  const router = useRouter(); // Initialize router
   const [user, setUser] = useState(null); // Stores the currently logged-in user
   const [communities, setCommunities] = useState([]); // Stores the list of communities to display
+
+
+  const handleJoinCommunity = async (communityName) => {
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      // Store the community name in localStorage
+      localStorage.setItem("pendingCommunity", communityName);
+      router.push('/login');
+      return;
+    }
+  
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/api/communities/${communityName}/add_member`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ communityName }),
+      });
+  
+      if (response.ok) {
+        alert(`You have successfully joined ${communityName}!`);
+        refreshCommunities(); // Refresh the communities list
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error || "Failed to join the community.");
+      }
+    } catch (error) {
+      console.error("Error joining community:", error);
+      alert("An unexpected error occurred. Please try again.");
+    }
+  };
+
 
   // Fetch user and communities on component mount
   useEffect(() => {
@@ -50,6 +87,14 @@ export default function Home() {
           setUser(userData);
 
           console.log("Home page. Current user:", userData);
+
+          // Check for pending community
+          const pendingCommunity = localStorage.getItem("pendingCommunity");
+          if (pendingCommunity) {
+            console.log(`Joining pending community: ${pendingCommunity}`);
+            await handleJoinCommunity(pendingCommunity); // Automatically join the pending community
+            localStorage.removeItem("pendingCommunity"); // Clear the pending community
+          }
 
           // Fetch communities based on the user
           const communitiesResponse = await fetch(
@@ -117,9 +162,10 @@ export default function Home() {
           body={community.description}
           imageUrl={community.image_url || null}
           members={numMembers}
+          onJoin={() => handleJoinCommunity(community.name)} // Handle join action
         />
         );
-      })
+  })
     ) : (
       <p>{user ? "You are not part of any communities yet." : "No popular communities to display."}</p>
     )}
