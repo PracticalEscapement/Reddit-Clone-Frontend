@@ -66,15 +66,17 @@ export default function LoginPage() {
           required
         />
         <button type="submit">Login</button>
-        <div>
-          <p>
-            Don&apos;t have an account?{" "}
-            <a href="/register" style={{ color: "blue", textDecoration: "underline" }}>
-              Register here
-            </a>
-          </p>
-        </div>
-      </form>
+
+      <div>
+        <p>
+          Don&apos;t have an account?{" "}
+          <a href="/register" style={{ color: "blue", textDecoration: "underline" }}>
+            Register here
+          </a>
+        </p>
+      </div>
+
+      </form> 
     </div>
   );
 }
