@@ -163,6 +163,7 @@ export default function Home() {
           title={community.name}
           body={community.description}
           imageUrl={community.image_url || null}
+          isOwner={!!user}
           members={numMembers}
           onJoin={() => handleJoinCommunity(community.name)} // Handle join action
         />

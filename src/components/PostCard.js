@@ -1,6 +1,6 @@
 import './PostCard.css';
 
-export default function PostCard({ title, body, imageUrl, members, onJoin }) {
+export default function PostCard({ title, body, imageUrl, members, isOwner, onJoin }) {
   return (
     <div className="post-card">
       <h2 className="post-title">{title}</h2>
@@ -11,7 +11,11 @@ export default function PostCard({ title, body, imageUrl, members, onJoin }) {
         </div>
       )}
       <p className="post-members">{members === 1 ? `${members} member` : `${members} members`}</p> {/* Add members info */}
-      <button className="join-button" onClick={onJoin}>Join</button>
+      {!isOwner && (
+        <button className="join-button" onClick={onJoin}>
+          Join
+        </button>
+      )}
     </div>
   );
 }
