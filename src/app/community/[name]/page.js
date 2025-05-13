@@ -4,7 +4,7 @@ import CreatePostForm from '@/components/CreatePostForm/CreatePostForm';
 
 // Dummy data: map community names to posts
 const communityData = {
-  programming: [
+  Programming: [
     { title: 'Best programming languages in 2025', body: 'Let’s discuss...', imageUrl: '' },
     { title: 'Functional vs OOP', body: 'What do you prefer?', imageUrl: '' },
   ],
@@ -22,6 +22,7 @@ export default function CommunityPage({ params }) {
 
   if (!posts) return (
     <>
+      <CreatePostForm />
       <h1>No Posts Yet :(</h1>
     </>
   );
