@@ -1,11 +1,12 @@
 .subreddit-card {
   background-color: white;
   border: 1px solid #ccc;
-  border-radius: 12px; /* Rounded corners to match form styles */
+  border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   transition: box-shadow 0.2s ease-in-out, transform 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  color: #222; /* Default text color for light mode */
 }
 
 .subreddit-card:hover {
@@ -15,16 +16,20 @@
 
 body.dark .subreddit-card {
   background-color: #1e1e1e;
-  color: white;
+  color: #f0f0f0; /* Global text color for dark mode */
   border-color: #333;
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
 }
 
 /* Typography inside card */
-.subreddit-card h3 {
+.subreddit-card h2 {
   margin: 0 0 0.5rem;
-  font-size: 1.25rem;
+  font-size: 2 rem;
   color: #222;
+}
+
+body.dark .subreddit-card h2 {
+  color: #ffffff;
 }
 
 .subreddit-card p {
@@ -34,19 +39,14 @@ body.dark .subreddit-card {
   line-height: 1.4;
 }
 
-body.dark .subreddit-card h3 {
-  color: #f1f1f1;
-}
-
 body.dark .subreddit-card p {
-  color: #aaa;
+  color: #ccc;
 }
 
 /* Join button */
 .join-button {
   padding: 0.6rem 1.2rem;
   border: none;
-  width: 150;
   border-radius: 9999px;
   background-color: #0079d3;
   color: white;
@@ -79,7 +79,7 @@ body.dark .join-button:hover {
 
 body.dark .join-button.joined {
   background-color: #444;
-  color: white;
+  color: #fff;
 }
 
 /* Post image */
@@ -96,9 +96,6 @@ body.dark .join-button.joined {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-body.dark .community-image{
+body.dark .community-image {
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
 }
-
-
-
