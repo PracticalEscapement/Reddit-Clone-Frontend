@@ -6,6 +6,7 @@ import PostCard from "../components/PostCard";
 
 import CreateCommunity from "../components/createCommunity";
 import CreatePostForm from "@/components/CreatePostForm/CreatePostForm";
+import CommunityCard from "@/components/CommunityCard";
 
 
 export default function Home() {
@@ -151,15 +152,12 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Create Post</h1>
-      <CreatePostForm />
-
       <h1>{user ? "Your Communities" : "Popular Communities"}</h1>
       {communities.length > 0 ? (
       communities.map((community) => {
         // Ensure num_members is not null
         const numMembers = community.num_members || 0;
-        return (<PostCard
+        return (<CommunityCard
           key={community.name}
           title={community.name}
           body={community.description}

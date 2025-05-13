@@ -28,7 +28,7 @@ export default function ExplorePage() {
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
       <h1>Explore Communities</h1>
       {communities.map((sub, index) => (
-        <CommunityCard key={index} name={sub.name} members={sub.members} />
+        <CommunityCard key={index} title={sub.name} members={sub.members} />
       ))}
     </div>
   );

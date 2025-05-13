@@ -1,10 +1,10 @@
 'use client';
 
-import './CommunityCard.css';
+//import './CommunityCard.css';
 import Link from 'next/link';
 import { useState } from 'react';
 
-export default function CommunityCard({ name, members }) {
+export default function CommunityCard({ title, body, imageUrl, members, onJoin }) {
   const [joined, setJoined] = useState(false);
 
   const handleJoin = (e) => {
@@ -14,20 +14,17 @@ export default function CommunityCard({ name, members }) {
   };
 
   return (
-    <Link href={`/community/${name.replace('r/', '')}`} className="card-link">
-      <div className="subreddit-card">
-        <div className="subreddit-info">
-          <div>
-            <h3>{name}</h3>
-            <p>{members} members</p>
+    <Link href={`/community/${title.replace('r/', '')}`} className="card-link">
+      <div className="post-card">
+        <h2 className="post-title">{title}</h2>
+        <p className="post-body">{body}</p>
+        {imageUrl && (
+          <div className="post-image-wrapper">
+            <img src={imageUrl} alt="Post" className="post-image" />
           </div>
-          <button
-            className={`join-button ${joined ? 'joined' : ''}`}
-            onClick={handleJoin}
-          >
-            {joined ? 'Joined' : 'Join'}
-          </button>
-        </div>
+        )}
+        <p className="post-members">{members === 1 ? `${members} member` : `${members} members`}</p> {/* Add members info */}
+        <button className="join-button" onClick={onJoin}>Join</button>
       </div>
     </Link>
   );
