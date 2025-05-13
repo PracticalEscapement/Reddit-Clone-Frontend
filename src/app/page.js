@@ -6,6 +6,7 @@ import PostCard from "../components/CommunityCard";
 
 import CreateCommunity from "../components/createCommunity";
 import CommunityCard from "../components/CommunityCard";
+import CreatePostForm from "@/components/CreatePostForm/CreatePostForm";
 
 
 export const handleJoinCommunity = async (communityName) => {
