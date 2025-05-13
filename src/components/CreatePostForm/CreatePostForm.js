@@ -48,13 +48,13 @@ export default function CreatePostForm({ onSubmit }) {
         onChange={handleChange}
         required
       ></textarea>
-      <input
+      {/* <input
         type="text"
         name="imageUrl"
         placeholder="Image URL (optional)"
         value={formData.imageUrl}
         onChange={handleChange}
-      />
+      /> */}
       <button type="submit">Post</button>
     </form>
   );
