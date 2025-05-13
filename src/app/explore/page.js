@@ -1,35 +1,86 @@
+"use client";
+import { useEffect, useState } from "react";
 import CommunityCard from "@/components/CommunityCard";
 
-const communities = [
-  { name: "r/programming", members: "6.8M" },
-  { name: "r/learnprogramming", members: "3.8M" },
-  { name: "r/javascript", members: "2.3M" },
-  { name: "r/webdev", members: "1.6M" },
-  { name: "r/reactjs", members: "338K" },
-  { name: "r/node", members: "228K" },
-  { name: "r/learnjavascript", members: "222K" },
-  { name: "r/coding", members: "490K" },
-  { name: "r/technology", members: "13M" },
-  { name: "r/computerscience", members: "1.2M" },
-  { name: "r/linux", members: "1.1M" },
-  { name: "r/buildapc", members: "6M" },
-  { name: "r/hardware", members: "1.2M" },
-  { name: "r/sysadmin", members: "1.3M" },
-  { name: "r/techsupport", members: "1.1M" },
-  { name: "r/opensource", members: "210K" },
-  { name: "r/itcareerquestions", members: "1.1M" },
-  { name: "r/quantumcomputing", members: "167K" },
-  { name: "r/cybersecurity", members: "1.2M" },
-  { name: "r/artificial", members: "500K" }
-];  
-
 export default function ExplorePage() {
+  const [communities, setCommunities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null); // Stores the currently logged-in user
+
+
+  useEffect(() => {
+    async function fetchCommunities() {
+      const token = localStorage.getItem("jwtToken"); // Retrieve the JWT token from localStorage
+      if (!token) {
+        setUser(null);
+        console.log("No token found. Fetching popular communities.");
+        try {
+          // Fetch popular communities
+          const popularResponse = await fetch("http://127.0.0.1:5000/api/communities/popular", {
+            method: "GET",
+          });
+
+          if (popularResponse.ok) {
+            const popularCommunities = await popularResponse.json();
+            console.log(popularCommunities)
+            setCommunities(popularCommunities);
+          } else {
+            console.error("Failed to fetch popular communities.");
+          }
+        } catch (error) {
+          console.error("Error fetching popular communities:", error);
+        } finally {
+          setLoading(false);
+        }
+        return;
+      }
+      try {
+        // Fetch communities the user is not a member of
+        const response = await fetch("http://127.0.0.1:5000/api/communities/not_member", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setCommunities(data);
+          console.log(data);
+        } else {
+          console.error("Failed to fetch communities.");
+        }
+      } catch (error) {
+        console.error("Error fetching communities:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchCommunities();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+    <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
       <h1>Explore Communities</h1>
-      {communities.map((sub, index) => (
-        <CommunityCard key={index} name={sub.name} members={sub.members} />
-      ))}
+      {communities.length > 0 ? (
+        communities.map((sub, index) => (
+          <CommunityCard 
+              key={index} 
+              name={sub.name} 
+              body={sub.description}
+              imageUrl={sub.image_url || null}
+              isOwner={false}
+              members={sub.num_members}
+              onJoin={() => handleJoinCommunity(sub.name)} // Handle join action 
+              />
+        ))
+      ) : (
+        <p>There is nothing to explore. You are part of all popular communities!</p>
+      )}
     </div>
   );
 }

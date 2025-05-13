@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
-import PostCard from "../components/PostCard";
+import PostCard from "../components/CommunityCard";
 
 import CreateCommunity from "../components/createCommunity";
+import CommunityCard from "../components/CommunityCard";
 
 
 export default function Home() {
@@ -158,9 +159,9 @@ export default function Home() {
       communities.map((community) => {
         // Ensure num_members is not null
         const numMembers = community.num_members || 0;
-        return (<PostCard
+        return (<CommunityCard
           key={community.name}
-          title={community.name}
+          name={community.name}
           body={community.description}
           imageUrl={community.image_url || null}
           isOwner={!!user}
