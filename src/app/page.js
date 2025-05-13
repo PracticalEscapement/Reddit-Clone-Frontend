@@ -2,49 +2,53 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
-import PostCard from "../components/PostCard";
+import PostCard from "../components/CommunityCard";
 
 import CreateCommunity from "../components/createCommunity";
+//import CommunityCard from "../components/CommunityCard";
 import CreatePostForm from "@/components/CreatePostForm/CreatePostForm";
 import CommunityCard from "@/components/CommunityCard";
 
+
+export const handleJoinCommunity = async (communityName) => {
+  const token = localStorage.getItem("jwtToken");
+  if (!token) {
+    // Store the community name in localStorage
+    localStorage.setItem("pendingCommunity", communityName);
+    router.push('/login');
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://127.0.0.1:5000/api/communities/${communityName}/add_member`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ communityName }),
+    });
+
+    if (response.ok) {
+      alert(`You have successfully joined ${communityName}!`);
+      refreshCommunities(); // Refresh the communities list
+    } else {
+      const errorData = await response.json();
+      alert(errorData.error || "Failed to join the community.");
+    }
+  } catch (error) {
+    console.error("Error joining community:", error);
+    alert("An unexpected error occurred. Please try again.");
+  }
+};
 
 export default function Home() {
   const router = useRouter(); // Initialize router
   const [user, setUser] = useState(null); // Stores the currently logged-in user
   const [communities, setCommunities] = useState([]); // Stores the list of communities to display
 
-
-  const handleJoinCommunity = async (communityName) => {
-    const token = localStorage.getItem("jwtToken");
-    if (!token) {
-      // Store the community name in localStorage
-      localStorage.setItem("pendingCommunity", communityName);
-      router.push('/login');
-      return;
-    }
-  
-    try {
-      const response = await fetch(`http://127.0.0.1:5000/api/communities/${communityName}/add_member`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ communityName }),
-      });
-  
-      if (response.ok) {
-        alert(`You have successfully joined ${communityName}!`);
-        refreshCommunities(); // Refresh the communities list
-      } else {
-        const errorData = await response.json();
-        alert(errorData.error || "Failed to join the community.");
-      }
-    } catch (error) {
-      console.error("Error joining community:", error);
-      alert("An unexpected error occurred. Please try again.");
-    }
+  const handleCommunityCreated = (newCommunity) => {
+    setCommunities((prevCommunities) => [...prevCommunities, newCommunity]);
   };
 
 
@@ -159,9 +163,11 @@ export default function Home() {
         const numMembers = community.num_members || 0;
         return (<CommunityCard
           key={community.name}
-          title={community.name}
+          name={community.name}
           body={community.description}
           imageUrl={community.image_url || null}
+          isOwner={!!user}
+          joined={true}
           members={numMembers}
           onJoin={() => handleJoinCommunity(community.name)} // Handle join action
         />
@@ -172,7 +178,7 @@ export default function Home() {
     )}
 
     {user && (
-      <CreateCommunity userId={user.id} onCommunityCreated={refreshCommunities} />
+      <CreateCommunity userId={user.id} onCommunityCreated={handleCommunityCreated} />
     )}
 
     {!user && <p>Please log in to create a community.</p>}
