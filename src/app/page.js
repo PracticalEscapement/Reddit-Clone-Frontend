@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import PostCard from "../components/PostCard";
 
 import CreateCommunity from "../components/createCommunity";
+import CreatePostForm from "@/components/CreatePostForm/CreatePostForm";
 
 export default function Home() {
   const [user, setUser] = useState(null); // Stores the currently logged-in user
@@ -90,6 +91,9 @@ export default function Home() {
 
   return (
     <div>
+      <h1>Create Post</h1>
+      <CreatePostForm />
+
       <h1>{user ? "Your Communities" : "Popular Communities"}</h1>
       {communities.map((community) => (
         <PostCard
