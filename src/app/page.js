@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import PostCard from "../components/PostCard";
 
 import CreateCommunity from "../components/createCommunity";
+import CreatePostForm from "@/components/CreatePostForm/CreatePostForm";
 
 
 export default function Home() {
@@ -150,6 +151,9 @@ export default function Home() {
 
   return (
     <div>
+      <h1>Create Post</h1>
+      <CreatePostForm />
+
       <h1>{user ? "Your Communities" : "Popular Communities"}</h1>
       {communities.length > 0 ? (
       communities.map((community) => {
