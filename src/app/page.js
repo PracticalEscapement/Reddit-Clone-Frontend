@@ -174,6 +174,7 @@ export default function Home() {
           onJoin={() => handleJoinCommunity(community.name)} // Handle join action
         />
         );
+        
   })
     ) : (
       <p>{user ? "You are not part of any communities yet." : "No popular communities to display."}</p>
