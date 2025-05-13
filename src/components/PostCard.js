@@ -11,11 +11,6 @@ export default function PostCard({ title, body, imageUrl, members, isOwner, onJo
         </div>
       )}
       <p className="post-members">{members === 1 ? `${members} member` : `${members} members`}</p> {/* Add members info */}
-      {!isOwner && (
-        <button className="join-button" onClick={onJoin}>
-          Join
-        </button>
-      )}
     </div>
   );
 }

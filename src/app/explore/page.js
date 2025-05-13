@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import CommunityCard from "@/components/CommunityCard";
+import { handleJoinCommunity } from "../page";
 
 export default function ExplorePage() {
   const [communities, setCommunities] = useState([]);
@@ -73,8 +74,9 @@ export default function ExplorePage() {
               name={sub.name} 
               body={sub.description}
               imageUrl={sub.image_url || null}
-              isOwner={false}
               members={sub.num_members}
+              isOwner={false}
+              joined={sub.joined || false} // Pass the joined status
               onJoin={() => handleJoinCommunity(sub.name)} // Handle join action 
               />
         ))
