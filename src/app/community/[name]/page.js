@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import PostCard from '../../../components/PostCard'; // reuse your component
+import CreatePostForm from '@/components/CreatePostForm/CreatePostForm';
 
 // Dummy data: map community names to posts
 const communityData = {
@@ -19,14 +20,22 @@ export default function CommunityPage({ params }) {
   const { name } = params;
   const posts = communityData[name];
 
-  if (!posts) return notFound();
+  if (!posts) return (
+    <>
+      <h1>No Posts Yet :(</h1>
+    </>
+  );
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-      <h1 style={{ marginBottom: '1rem' }}>Welcome to r/{name}</h1>
-      {posts.map((post, index) => (
-        <PostCard key={index} {...post} />
-      ))}
-    </div>
+    <>
+      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <h1 style={{ marginBottom: '1rem' }}>Welcome to r/{name}</h1>
+        <CreatePostForm />
+        {posts.map((post, index) => (
+          <PostCard key={index} {...post} />
+        ))}
+      </div>
+    </>
+    
   );
 }

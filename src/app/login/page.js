@@ -14,6 +14,7 @@ export default function LoginPage() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // will need to be configured with flask backend.
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Logging in with:', formData);
@@ -32,6 +33,7 @@ export default function LoginPage() {
         const data = await response.json();
         localStorage.setItem("jwtToken", data.token); // Store the JWT token
         console.log('Login successful:', data);
+        // Redirect or update UI after successful login
         router.push('/'); // Redirect to the home page
       } else {
         const errorData = await response.json(); // Parse the error response
@@ -42,6 +44,7 @@ export default function LoginPage() {
       console.error('Error logging in:', err);
       setError('An unexpected error occurred. Please try again.');
     }
+
   };
 
   return (
@@ -69,14 +72,17 @@ export default function LoginPage() {
 
       <div>
         <p>
-          Don&apos;t have an account?{" "}
+          Don't have an account?{" "}
           <a href="/register" style={{ color: "blue", textDecoration: "underline" }}>
             Register here
           </a>
         </p>
       </div>
 
-      </form> 
+      </form>
+      
+
+      
     </div>
   );
 }
